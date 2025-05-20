@@ -11,6 +11,6 @@
 
 int main(int, const char **)
 {
-    std::cout << "test" << std::endl;
+    std::cout << "Salut baptiste ! c'est docker qui te parle" << std::endl;
     return EXIT_SUCCESS;
 }
