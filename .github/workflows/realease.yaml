@@ -31,13 +31,13 @@ jobs:
           ssh_private_key:
             ${{ secrets.GIT_SSH_PRIVATE_KEY }}
 
-  realease_project:
+  release_project:
     name: Release
     needs: [is_epi_repo]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Release
@@ -49,7 +49,7 @@ jobs:
 
   push_docker_image:
     name: Release project in docker
-    needs: [is_epi_repo, realease_project]
+    needs: [is_epi_repo, release_project]
     runs-on: ubuntu-latest
     permissions:
         packages: write
