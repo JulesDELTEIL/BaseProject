@@ -2,12 +2,54 @@ name: Release
 run-name: Releasing the project
 
 on:
-  release:
-    types: [published]
+  pull_request:
+    branches:
+        - main
+    types: [closed]
 
 jobs:
-  push_image:
-    name: Release project in image
+  is_epi_repo:
+    name: Check if Epitech repo
+    runs-on: ubuntu-latest
+    if: github.repository != 'GITHUB ADRESS'
+    steps:
+      - run: echo OK
+
+  push_to_mirror:
+    needs: [is_epi_repo]
+    name: Push to Epitech repo
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+
+  realease_project:
+    name: Release
+    needs: [is_epi_repo]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Release
+        uses: justincy/github-action-npm-release@v1.2.0
+        id: release
+      - name: Print release output
+        if: ${{ steps.release.outputs.released == 'true' }}
+        run: echo Release ID ${{ steps.release.outputs.release_id }}
+
+  push_docker_image:
+    name: Release project in docker
+    needs: [is_epi_repo, realease_project]
     runs-on: ubuntu-latest
     permissions:
         packages: write
