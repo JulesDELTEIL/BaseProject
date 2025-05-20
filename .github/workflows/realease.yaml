@@ -1,11 +1,14 @@
 name: Release
-run-name: Releasing the project
+run-name: Releasing default_project_name
 
 on:
   pull_request:
     branches:
         - main
     types: [closed]
+
+permissions:
+    contents: read
 
 jobs:
   is_epi_repo:
@@ -40,7 +43,7 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          title: julesdelt/default_project_name
+          title: default_project_name
           automatic_release_tag: latest
           prerelease: false
   

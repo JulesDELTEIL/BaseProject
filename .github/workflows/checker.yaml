@@ -1,5 +1,5 @@
 name: Checker
-run-name: Checker default_project_name
+run-name: Checking default_project_name
 
 on:
   pull_request:
@@ -31,4 +31,4 @@ jobs:
         working-directory: ./build/
         run: cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release && cmake -\-build .
       - name: Check for executable
-        run: if [ ! -f "./raytracer" ]; then exit 1; fi
+        run: if [ ! -f "./default_project_name" ]; then exit 1; fi
