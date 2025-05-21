@@ -11,7 +11,7 @@ jobs:
   is_mirror_repo:
     name: Check if mirror repo
     runs-on: ubuntu-latest
-    if: github.repository != 'GITHUB ADRESS'
+    if: github.repository != 'GITHUB_ADRESS'
     steps:
       - run: echo OK
 

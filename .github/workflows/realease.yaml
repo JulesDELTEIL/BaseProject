@@ -19,6 +19,7 @@ jobs:
   release_project:
     name: Release
     needs: [is_mirror_repo]
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - name: Auto Release
